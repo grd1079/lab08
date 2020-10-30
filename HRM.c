@@ -84,10 +84,9 @@ int main(void)
 			if (capcnt >= (500)) {
 				GPIOB_PCOR |= (1 << 22);
 				// send the array over uart
-				sprintf(str,"%i\n\r",-1); // start value
+				sprintf(str,"start: %i\n\r",-1); // start value
 				uart0_put(str);
-				for (i = 0; i < 127; i++) {
-        
+				for (i = 0; i < 127; i++) {        
           // pull out max value
           if (line[i] > maxVal){
             maxVal = line[i];
@@ -99,18 +98,19 @@ int main(void)
             }
           }
 				}
-        if (oddCap == 0){
-            bpm = 1/(t1-t0);
-            sprintf(str, "\n My Heart Rate is %d BPM \n\r", bpm);
-            uart0_put(str);
-            oddCap = 1;
-          
-        }
-        else{
-            oddCap = 0;
-        }
+				if (oddCap == 0){
+						bpm = 1/(t1-t0);
+						sprintf(str, "\n My Heart Rate is %d BPM \n\r", bpm);
+						uart0_put(str);
+						oddCap = 1;
+					
+				}
+				else{
+						oddCap = 0;
+				}
 				capcnt = 0;
 				GPIOB_PSOR |= (1 << 22);
+				
 			}
 	} //for
 } //main
